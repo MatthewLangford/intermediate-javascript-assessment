@@ -13,7 +13,17 @@
 // return the result of your updateAnimal invocation
 
 // CODE HERE...
+function callBinding(magicAnimals, updateAnimal, id) {
+    var animal;
+    for(var i = 0; i < magicAnimals.length; i++){
+        if(magicAnimals[i].id === id){
+            animal = magicAnimals[i];
+            updateAnimal.call(animal,'Trogdor')
+        }
+    }
 
+    return animal;
+}
 
 // *************
 // * PROBLEM 2 *
@@ -27,7 +37,16 @@
 // return the result of your updateAnimal invocation
 
 // CODE HERE...
-
+function applyBinding(magicAnimals, updateAnimal, id) {
+    var selected;
+    for(var i = 0; i < magicAnimals.length; i++){
+        if(magicAnimals[i].id === id){
+            selected = magicAnimals[i];
+            updateAnimal.apply(selected,['being majestic', 'eating rainbows']);
+        }
+    }
+    return selected;
+}
 // *************
 // * PROBLEM 3 *
 // *************
@@ -44,7 +63,16 @@
 
 var foo;
 // CODE HERE...
-
+function promiseMe($q) {
+   return $q(function () {
+       setTimeout(function () {
+           foo = 'bar'
+       }, 20)
+   }).then(function () {
+        foo = 'bar';
+       return foo;
+   })
+}
 
 // *************
 // * PROBLEM 4 *
@@ -59,3 +87,17 @@ var foo;
 // and then pass the array as you complete your promise.
 
 // CODE HERE...
+function emailList($q, $http){
+    var emails = [];
+        return $http({
+            method:'GET',
+            url: '/api/users'
+        }).then(function (response) {
+            for(var i = 0; i < response.data.length; i++){
+                emails.push(response.data[i].email)
+            }
+            return emails;
+        });
+
+};
+

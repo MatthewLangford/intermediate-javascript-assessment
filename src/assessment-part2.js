@@ -40,10 +40,14 @@ function noWeakLink() {
   var promise = $http({
     method: 'GET',
     url: '/api/users'
-  })
+  }).then(function (response) {
+      firstUser = response.data[0];
+      return response;
+  }).then(function (result) {
+      thirdUser = result.data[2];
+      return result.data[9]
+  });
   // CODE HERE...
-
-
   return promise;
 }
 
@@ -67,13 +71,12 @@ function noWeakLink() {
 
 var elephant = {
   name: 'Horton'
-}
+};
 function large() {
-
   return 'My name is ' + this.name + ' and I am very heavy!'
 }
 // CODE HERE...
-
+var boundToElephant = large.bind(elephant);
 
 
 // *************
@@ -86,7 +89,9 @@ function large() {
 // Use explicit binding to give capacity the context of crew and return the result.
 
 // CODE HERE...
-
+function deathStar(capacity, crew) {
+    return capacity.bind(crew);
+}
 
 
 // *************
@@ -101,7 +106,11 @@ function large() {
 // The closure function will returns the combined value of assets and liabilities.
 
 // CODE HERE...
-
+function accountingOffice(assets) {
+    return function (liabilities) {
+        return assets + liabilities;
+    }
+}
 
 
 // *************
@@ -126,7 +135,17 @@ function large() {
 // };
 
 // CODE HERE...
+function forgetter(name) {
+    var rememberArray = [];
+    return function rememberall(item) {
 
+        rememberArray.push(item);
+        return {
+            name: name,
+            remember: rememberArray
+        }
+    }
+}
 
 
 // *************
@@ -154,3 +173,39 @@ function large() {
 // NOTE: Neither hunger nor danger should be able to exceed 100 or drop below 0.
 
 // CODE HERE...
+function frodo(startingHungerValue, startingDangerValue) {
+    var sH = startingHungerValue;
+    var sD = startingDangerValue;
+    return {
+        dinnerOverFire: function () {
+            sH -= 25;
+            if (sH  <= 0 ){
+                sH = 0;
+            }
+            sD += 40;
+            if (sD  >= 100){
+                sD = 100;
+            }
+            return{
+                hunger: sH,
+                danger: sD
+            }
+        },
+        hidingInBush: function () {
+            sH += 35;
+            if(sH >= 100){
+                sH = 100;
+            }
+            sD -= 20;
+            if(sD <= 0){
+                sD = 0
+            }
+            return{
+                hunger: sH,
+                danger: sD
+            }
+        }
+        
+        
+    }
+}
